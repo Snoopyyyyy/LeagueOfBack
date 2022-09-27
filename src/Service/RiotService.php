@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Game;
 use App\Entity\Item;
+use App\Entity\Kill;
 use App\Entity\Summoner;
 use App\Entity\Ward;
 use DateTime;
@@ -76,6 +77,7 @@ class RiotService
             case "PAUSE_END":
                 $game->setDate(new DateTime(strtotime($event["realTimestamp"])));
                 break;
+
             case "GAME_END":
                 $game->setDuree($event["timestamp"]);
                 $game->setWin(true);
@@ -106,6 +108,52 @@ class RiotService
                 $item->setType($event["type"]);
                 $game->addItem($item);
                 break;
+
+            case "ITEM_DESTROYED":
+                $item = new Item();
+                $item->setPlayerId($event["participantId"]);
+                $item->setTimestamp($event["timestamp"]);
+                $item->setItemId($event["itemId"]);
+                $item->setType($event["type"]);
+                $game->addItem($item);
+                break;
+
+            case "ITEM_UNDO":
+                $item = new Item();
+                $item->setAfterId($event["afterId"]);
+                $item->setBeforeId($event["beforeId"]);
+                $item->setGoldGain($event["goldGain"]);
+                $item->setAfterId($event["participantId"]);
+                $item->setTimestamp($event["timestamp"]);
+                $item->setType($event["type"]);
+                $game->addItem($item);
+                break;
+
+            case "ITEM_SOLD":
+                $item = new Item();
+                $item->setPlayerId($event["participantId"]);
+                $item->setTimestamp($event["timestamp"]);
+                $item->setType($event["type"]);
+                $game->addItem($item);
+                break;
+
+            case "CHAMPION_KILL";
+                $kill = new Kill();
+                $kill->setTimestamp($event["timestamp"]);
+                $kill->setAssistance($event["assistingParticipantIds"]);
+                $kill->setBounty($event["bounty"]);
+                $kill->setKillerId($event["killerId"]);
+                $kill->setPositionX($event["position"]["x"]);
+                $kill->setPositionY($event["position"]["y"]);
+                $kill->setShutdownBounty($event["shutdownBounty"]);
+                $kill->setVictimeId($event["victimId"]);
+                $kill->setKillerStreak($event["killStreakLength"]);
+                $kill->setType($event["type"]);
+                $game->addKill($kill);
+
+
+
+
         }
         return $game;
     }
