@@ -35,8 +35,8 @@ class TowerKill
     #[ORM\Column]
     private ?int $team_id = null;
 
-    #[ORM\Column(type: Types::TIME_MUTABLE)]
-    private ?\DateTimeInterface $timestamp = null;
+    #[ORM\Column]
+    private ?int $timestamp = null;
 
     #[ORM\ManyToOne(inversedBy: 'towerKills')]
     private ?Game $game = null;
@@ -130,12 +130,12 @@ class TowerKill
         return $this;
     }
 
-    public function getTimestamp(): ?\DateTimeInterface
+    public function getTimestamp(): ?int
     {
         return $this->timestamp;
     }
 
-    public function setTimestamp(\DateTimeInterface $timestamp): self
+    public function setTimestamp(int $timestamp): self
     {
         $this->timestamp = $timestamp;
 

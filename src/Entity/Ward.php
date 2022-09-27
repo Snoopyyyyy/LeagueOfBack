@@ -17,8 +17,8 @@ class Ward
     #[ORM\Column]
     private ?int $player_id = null;
 
-    #[ORM\Column(type: Types::TIME_MUTABLE)]
-    private ?\DateTimeInterface $timestamp = null;
+    #[ORM\Column]
+    private ?int $timestamp = null;
 
     #[ORM\Column(length: 255)]
     private ?string $type = null;
@@ -46,12 +46,12 @@ class Ward
         return $this;
     }
 
-    public function getTimestamp(): ?\DateTimeInterface
+    public function getTimestamp(): ?int
     {
         return $this->timestamp;
     }
 
-    public function setTimestamp(\DateTimeInterface $timestamp): self
+    public function setTimestamp(int $timestamp): self
     {
         $this->timestamp = $timestamp;
 

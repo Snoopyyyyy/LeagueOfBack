@@ -26,8 +26,8 @@ class Plate
     #[ORM\Column]
     private ?int $team_id = null;
 
-    #[ORM\Column(type: Types::TIME_MUTABLE)]
-    private ?\DateTimeInterface $timestamp = null;
+    #[ORM\Column]
+    private ?int $timestamp = null;
 
     #[ORM\Column(length: 255)]
     private ?string $type = null;
@@ -88,12 +88,12 @@ class Plate
         return $this;
     }
 
-    public function getTimestamp(): ?\DateTimeInterface
+    public function getTimestamp(): ?int
     {
         return $this->timestamp;
     }
 
-    public function setTimestamp(\DateTimeInterface $timestamp): self
+    public function setTimestamp(int $timestamp): self
     {
         $this->timestamp = $timestamp;
 

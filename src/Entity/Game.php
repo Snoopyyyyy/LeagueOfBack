@@ -19,8 +19,8 @@ class Game
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\Column(type: Types::TIME_MUTABLE)]
-    private ?\DateTimeInterface $duree = null;
+    #[ORM\Column]
+    private ?int $duree = null;
 
     #[ORM\Column]
     private ?bool $win = null;
@@ -52,6 +52,9 @@ class Game
     #[ORM\OneToMany(mappedBy: 'game', targetEntity: InhibiterKill::class, cascade: ['persist'])]
     private Collection $inhibiterKills;
 
+    #[ORM\Column(length: 255)]
+    private ?string $riot_id = null;
+
     public function __construct()
     {
         $this->players = new ArrayCollection();
@@ -81,12 +84,12 @@ class Game
         return $this;
     }
 
-    public function getDuree(): ?\DateTimeInterface
+    public function getDuree(): ?int
     {
         return $this->duree;
     }
 
-    public function setDuree(\DateTimeInterface $duree): self
+    public function setDuree(int $duree): self
     {
         $this->duree = $duree;
 
@@ -353,6 +356,18 @@ class Game
                 $inhibiterKill->setGame(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRiotId(): ?string
+    {
+        return $this->riot_id;
+    }
+
+    public function setRiotId(string $riot_id): self
+    {
+        $this->riot_id = $riot_id;
 
         return $this;
     }

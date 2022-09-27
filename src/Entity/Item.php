@@ -14,26 +14,29 @@ class Item
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $item_id = null;
 
     #[ORM\Column]
     private ?int $player_id = null;
 
-    #[ORM\Column(type: Types::TIME_MUTABLE)]
-    private ?\DateTimeInterface $timestamp = null;
-
     #[ORM\Column]
+    private ?int $timestamp = null;
+
+    #[ORM\Column(nullable: true)]
     private ?int $gold_gain = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $before_id = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $after_id = null;
 
     #[ORM\ManyToOne(inversedBy: 'items')]
     private ?Game $game = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $type = null;
 
     public function getId(): ?int
     {
@@ -64,12 +67,12 @@ class Item
         return $this;
     }
 
-    public function getTimestamp(): ?\DateTimeInterface
+    public function getTimestamp(): ?int
     {
         return $this->timestamp;
     }
 
-    public function setTimestamp(\DateTimeInterface $timestamp): self
+    public function setTimestamp(int $timestamp): self
     {
         $this->timestamp = $timestamp;
 
@@ -120,6 +123,18 @@ class Item
     public function setGame(?Game $game): self
     {
         $this->game = $game;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }
