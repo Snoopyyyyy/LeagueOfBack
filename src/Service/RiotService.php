@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Game;
 use App\Entity\Summoner;
 use Exception;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -47,5 +48,14 @@ class RiotService
 
         $response = $this->client->request('GET',$url);
         return $response->toArray();
+    }
+
+    public function getGame(string $region, string $idGame ): Game{
+
+        return new Game();
+    }
+
+    private function convertEvent(Game $game,array $json): Game{
+        return $game;
     }
 }

@@ -28,28 +28,28 @@ class Game
     #[ORM\ManyToOne(inversedBy: 'games')]
     private ?Summoner $summoner = null;
 
-    #[ORM\OneToMany(mappedBy: 'game', targetEntity: Player::class)]
+    #[ORM\OneToMany(mappedBy: 'game', targetEntity: Player::class, cascade: ['persist'])]
     private Collection $players;
 
-    #[ORM\OneToMany(mappedBy: 'game', targetEntity: Ward::class)]
+    #[ORM\OneToMany(mappedBy: 'game', targetEntity: Ward::class, cascade: ['persist'])]
     private Collection $wards;
 
-    #[ORM\OneToMany(mappedBy: 'game', targetEntity: ObjectifKill::class)]
+    #[ORM\OneToMany(mappedBy: 'game', targetEntity: ObjectifKill::class, cascade: ['persist'])]
     private Collection $objectifKills;
 
-    #[ORM\OneToMany(mappedBy: 'game', targetEntity: Item::class)]
+    #[ORM\OneToMany(mappedBy: 'game', targetEntity: Item::class, cascade: ['persist'])]
     private Collection $items;
 
-    #[ORM\OneToMany(mappedBy: 'game', targetEntity: Plate::class)]
+    #[ORM\OneToMany(mappedBy: 'game', targetEntity: Plate::class, cascade: ['persist'])]
     private Collection $plates;
 
-    #[ORM\OneToMany(mappedBy: 'game', targetEntity: Kill::class)]
+    #[ORM\OneToMany(mappedBy: 'game', targetEntity: Kill::class, cascade: ['persist'])]
     private Collection $kills;
 
-    #[ORM\OneToMany(mappedBy: 'game', targetEntity: TowerKill::class)]
+    #[ORM\OneToMany(mappedBy: 'game', targetEntity: TowerKill::class, cascade: ['persist'])]
     private Collection $towerKills;
 
-    #[ORM\OneToMany(mappedBy: 'game', targetEntity: InhibiterKill::class)]
+    #[ORM\OneToMany(mappedBy: 'game', targetEntity: InhibiterKill::class, cascade: ['persist'])]
     private Collection $inhibiterKills;
 
     public function __construct()
