@@ -28,14 +28,14 @@ class RiotController extends AbstractController
         try {
             $sum = $riotService->getSummoner($region, $summoner);
         } catch (Exception $e) {
-            return new JsonResponse(['error' => 'getSummonerFailled'], 500);
+            return new JsonResponse(['error' => 'getSummonerFailled'], 501);
         }
         $em->persist($sum);
 
         try {
             $history = $riotService->getSummonerHistory($region, $sum->getPuuid());
         } catch (Exception $e) {
-            return new JsonResponse(['error' => 'getSummonerHistory'], 500);
+            return new JsonResponse(['error' => 'getSummonerHistory'], 502);
         }
 
         $game = $riotService->getGame($region, $history[0]);
@@ -54,6 +54,6 @@ class RiotController extends AbstractController
         }*/
         $em->persist($game);
         $em->flush();
-        dd($game);
+        return new JsonResponse(['success'=>'GG'],212);
     }
 }

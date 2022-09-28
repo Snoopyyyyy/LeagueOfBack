@@ -38,7 +38,7 @@ class ObjectifKill
     #[ORM\Column(length: 255)]
     private ?string $monster_type = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $sub_monster_type = null;
 
     #[ORM\ManyToOne(inversedBy: 'objectifKills')]

@@ -17,7 +17,7 @@ class Item
     #[ORM\Column(nullable: true)]
     private ?int $item_id = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $player_id = null;
 
     #[ORM\Column]

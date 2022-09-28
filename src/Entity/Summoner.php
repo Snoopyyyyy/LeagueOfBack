@@ -6,6 +6,7 @@ use App\Repository\SummonerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SummonerRepository::class)]
 class Summoner
@@ -16,12 +17,18 @@ class Summoner
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $summerner = null;
+    #[Groups(['toto'])]
+
+    private ?string $summoner = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['toto'])]
+
     private ?string $puuid = null;
 
     #[ORM\OneToMany(mappedBy: 'summoner', targetEntity: Game::class)]
+    #[Groups(['toto'])]
+
     private Collection $games;
 
     public function __construct()
@@ -34,14 +41,14 @@ class Summoner
         return $this->id;
     }
 
-    public function getSummerner(): ?string
+    public function getSummoner(): ?string
     {
-        return $this->summerner;
+        return $this->summoner;
     }
 
-    public function setSummerner(string $summerner): self
+    public function setSummoner(string $summoner): self
     {
-        $this->summerner = $summerner;
+        $this->summoner = $summoner;
 
         return $this;
     }

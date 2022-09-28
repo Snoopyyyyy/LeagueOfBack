@@ -46,7 +46,7 @@ class Kill
     #[ORM\ManyToOne(inversedBy: 'kills')]
     private ?Game $game = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable:true)]
     private ?int $killerTeamId = null;
 
     public function getId(): ?int

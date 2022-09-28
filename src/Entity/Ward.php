@@ -14,7 +14,7 @@ class Ward
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $player_id = null;
 
     #[ORM\Column]

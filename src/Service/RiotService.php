@@ -6,6 +6,7 @@ use App\Entity\Game;
 use App\Entity\Item;
 use App\Entity\Kill;
 use App\Entity\ObjectifKill;
+use App\Entity\Plate;
 use App\Entity\Summoner;
 use App\Entity\TowerKill;
 use App\Entity\Ward;
@@ -76,6 +77,7 @@ class RiotService
 
     private function convertEvent(Game $game,array $event): Game{
         switch ($event["type"]) {
+
             case "PAUSE_END":
                 $game->setDate(new DateTime(strtotime($event["realTimestamp"])));
                 break;
@@ -93,6 +95,7 @@ class RiotService
                 $ward->setPlayerId($event["creatorId"]);
                 $game->addWard($ward);
                 break;
+
             case "WARD_KILL":
                 $ward = new Ward();
                 $ward->setWardType($event["wardType"]);
@@ -101,7 +104,6 @@ class RiotService
                 $ward->setPlayerId($event["killerId"]);
                 $game->addWard($ward);
                 break;
-
             case "ITEM_PURCHASED":
                 $item = new Item();
                 $item->setPlayerId($event["participantId"]);
@@ -142,7 +144,9 @@ class RiotService
             case "CHAMPION_KILL";
                 $kill = new Kill();
                 $kill->setTimestamp($event["timestamp"]);
-                $kill->setAssistance($event["assistingParticipantIds"]);
+                if (array_key_exists("assistingParticipantIds",$event)){
+                    $kill->setAssistance($event["assistingParticipantIds"]);
+                }
                 $kill->setBounty($event["bounty"]);
                 $kill->setKillerId($event["killerId"]);
                 $kill->setPositionX($event["position"]["x"]);
@@ -151,10 +155,14 @@ class RiotService
                 $kill->setVictimeId($event["victimId"]);
                 $kill->setKillerStreak($event["killStreakLength"]);
                 $game->addKill($kill);
-
+                break;
             case  "ELITE_MONSTER_KILL";
+
                 $monsterKill = new ObjectifKill();
-                $monsterKill->setAssistance($event["assistingParticipantIds"]);
+
+                if (array_key_exists("assistingParticipantIds",$event)){
+                    $monsterKill->setAssistance($event["assistingParticipantIds"]);
+                }
                 $monsterKill->setBounty($event["bounty"]);
                 $monsterKill->setPositionY($event["position"]["y"]);
                 $monsterKill->setPositionX($event["position"]["x"]);
@@ -162,12 +170,19 @@ class RiotService
                 $monsterKill->setPlayerId($event["killerId"]);
                 $monsterKill->setTeamId($event["killerTeamId"]);
                 $monsterKill->setMonsterType($event["monsterType"]);
-                $monsterKill->setSubMonsterType($event["monsterSubType"]);
+                if (array_key_exists("monsterSubType",$event)){
+                    $monsterKill->setSubMonsterType($event["monsterSubType"]);
+                }
                 $game->addObjectifKill($monsterKill);
+                break;
 
             case "BUILDING_KILL";
                 $bk = new TowerKill();
-                $bk->setAssistance($event["assistingParticipantIds"]);
+
+                if (array_key_exists("assistingParticipantIds",$event)){
+                    $bk->setAssistance($event["assistingParticipantIds"]);
+                }
+
                 $bk->setBounty($event["bounty"]);
                 $bk->setTowerType($event["buildingType"]);
                 $bk->setPlayerId($event["killerId"]);
@@ -176,9 +191,17 @@ class RiotService
                 $bk->setTeamId($event["teamId"]);
                 $bk->setTimestamp($event["timestamp"]);
                 $game->addTowerKill($bk);
-
-
-
+                break;
+            case "TURRET_PLATE_DESTROYED";
+                $tpd = new Plate();
+                $tpd->setPlayerId($event["killerId"]);
+                $tpd->setPositionX($event["position"]["x"]);
+                $tpd->setPositionY($event["position"]["y"]);
+                $tpd->setTeamId($event["teamId"]);
+                $tpd->setTimestamp($event["timestamp"]);
+                $tpd->setType($event["type"]);
+                $game->addPlate($tpd);
+                break;
         }
         return $game;
     }

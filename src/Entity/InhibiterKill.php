@@ -20,7 +20,7 @@ class InhibiterKill
     #[ORM\Column]
     private ?int $bounty = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $player_id = null;
 
     #[ORM\Column]
