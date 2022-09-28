@@ -42,8 +42,12 @@ class Kill
     #[ORM\Column]
     private ?int $victime_id = null;
 
+
     #[ORM\ManyToOne(inversedBy: 'kills')]
     private ?Game $game = null;
+
+    #[ORM\Column]
+    private ?int $killerTeamId = null;
 
     public function getId(): ?int
     {
@@ -166,6 +170,18 @@ class Kill
     public function setGame(?Game $game): self
     {
         $this->game = $game;
+
+        return $this;
+    }
+
+    public function getKillerTeamId(): ?int
+    {
+        return $this->killerTeamId;
+    }
+
+    public function setKillerTeamId(int $killerTeamId): self
+    {
+        $this->killerTeamId = $killerTeamId;
 
         return $this;
     }

@@ -5,7 +5,9 @@ namespace App\Service;
 use App\Entity\Game;
 use App\Entity\Item;
 use App\Entity\Kill;
+use App\Entity\ObjectifKill;
 use App\Entity\Summoner;
+use App\Entity\TowerKill;
 use App\Entity\Ward;
 use DateTime;
 use Exception;
@@ -148,9 +150,32 @@ class RiotService
                 $kill->setShutdownBounty($event["shutdownBounty"]);
                 $kill->setVictimeId($event["victimId"]);
                 $kill->setKillerStreak($event["killStreakLength"]);
-                $kill->setType($event["type"]);
                 $game->addKill($kill);
 
+            case  "ELITE_MONSTER_KILL";
+                $monsterKill = new ObjectifKill();
+                $monsterKill->setAssistance($event["assistingParticipantIds"]);
+                $monsterKill->setBounty($event["bounty"]);
+                $monsterKill->setPositionY($event["position"]["y"]);
+                $monsterKill->setPositionX($event["position"]["x"]);
+                $monsterKill->setTimestamp($event["timestamp"]);
+                $monsterKill->setPlayerId($event["killerId"]);
+                $monsterKill->setTeamId($event["killerTeamId"]);
+                $monsterKill->setMonsterType($event["monsterType"]);
+                $monsterKill->setSubMonsterType($event["monsterSubType"]);
+                $game->addObjectifKill($monsterKill);
+
+            case "BUILDING_KILL";
+                $bk = new TowerKill();
+                $bk->setAssistance($event["assistingParticipantIds"]);
+                $bk->setBounty($event["bounty"]);
+                $bk->setTowerType($event["buildingType"]);
+                $bk->setPlayerId($event["killerId"]);
+                $bk->setPositionX($event["position"]["x"]);
+                $bk->setPositionY($event["position"]["y"]);
+                $bk->setTeamId($event["teamId"]);
+                $bk->setTimestamp($event["timestamp"]);
+                $game->addTowerKill($bk);
 
 
 
