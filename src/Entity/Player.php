@@ -82,6 +82,9 @@ class Player implements \JsonSerializable
     #[ORM\Column]
     private ?int $summoner2 = null;
 
+    #[ORM\Column]
+    private ?int $item0 = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -378,6 +381,7 @@ class Player implements \JsonSerializable
             "participantId" => $this->getParticipantId(),
             "visionScore" => $this->getVisionScore(),
             "win" => $this->isWin(),
+            "item0" => $this->getItem0(),
             "item1" => $this->getItem1(),
             "item2" => $this->getItem2(),
             "item3" => $this->getItem3(),
@@ -389,5 +393,17 @@ class Player implements \JsonSerializable
             "Summoner1" => $this->getSummoner1(),
             "Summoner2" => $this->getSummoner2(),
         );
+    }
+
+    public function getItem0(): ?int
+    {
+        return $this->item0;
+    }
+
+    public function setItem0(int $item0): self
+    {
+        $this->item0 = $item0;
+
+        return $this;
     }
 }
