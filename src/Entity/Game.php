@@ -16,7 +16,7 @@ class Game implements \JsonSerializable
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]// rajout de l'entrée unique
     private ?string $matchId = null;
 
     #[ORM\Column]
@@ -33,6 +33,9 @@ class Game implements \JsonSerializable
 
     #[ORM\OneToMany(mappedBy: 'game', targetEntity: Player::class, cascade: ['persist', 'remove'])]
     private Collection $players;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $gameMode = null;
 
     public function __construct()
     {
@@ -164,5 +167,17 @@ class Game implements \JsonSerializable
             "players" => $this->getPlayers()->toArray(),
             "events" => $this->getEvents()
         );
+    }
+
+    public function getGameMode(): ?string
+    {
+        return $this->gameMode;
+    }
+
+    public function setGameMode(?string $gameMode): self
+    {
+        $this->gameMode = $gameMode;
+
+        return $this;
     }
 }

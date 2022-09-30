@@ -58,13 +58,15 @@ class RiotService
         $url = 'https://'.$continent.'.api.riotgames.com/lol/match/v5/matches/'.$gameId.'?api_key='.$_ENV["RIOT_TOKEN"];
 
         $response = $this->client->request('GET', $url);
-        $json = $response->toArray();
 
+        $json = $response->toArray();
         $game = new Game();;
         $game->setMatchId($json["metadata"]["matchId"]);
         $game->setSurrender(false);
         $game->setDate(new \DateTime(strtotime($json["info"]["gameCreation"])));
         $game->setDuration($json["info"]["gameDuration"]);
+        $game->setGameMode($json["info"]["gameMode"]);
+
 
         foreach ($json["info"]["participants"] as $jsonPly) {
             $game->addPlayer($this->createPlayer($jsonPly));
