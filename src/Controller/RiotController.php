@@ -40,7 +40,6 @@ class RiotController extends AbstractController
                 $game = $riotService->getGameInfo($region, $gameId);
                 $gameEvent = $riotService->getGameEvents($region, $gameId);
                 $game->setEvents($gameEvent);
-
                 $em->persist($game);
                 $em->flush();
             }
