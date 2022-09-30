@@ -52,25 +52,25 @@ class Player implements \JsonSerializable
     #[ORM\Column]
     private ?bool $win = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $item1 = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $item2 = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $item3 = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $item4 = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $item5 = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $item6 = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $firstRune = null;
 
     #[ORM\Column]
@@ -82,7 +82,7 @@ class Player implements \JsonSerializable
     #[ORM\Column]
     private ?int $summoner2 = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $item0 = null;
 
     public function getId(): ?int
