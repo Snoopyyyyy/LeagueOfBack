@@ -155,6 +155,7 @@ class Game implements \JsonSerializable
             "date" => $this->getDate(),
             "duration" => $this->getDuration(),
             "players" => $this->getPlayers()->toArray(),
+            "gameMode" => $this->getGameMode()
         );
     }
 
@@ -165,7 +166,8 @@ class Game implements \JsonSerializable
             "date" => $this->getDate(),
             "duration" => $this->getDuration(),
             "players" => $this->getPlayers()->toArray(),
-            "events" => $this->getEvents()
+            "events" => $this->getEvents(),
+            "gameMode" => $this->getGameMode()
         );
     }
 

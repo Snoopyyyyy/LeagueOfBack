@@ -19,13 +19,16 @@ class RiotController extends AbstractController
             $summoner = $riotService->getSummoner($region, $summonerName);
             $em->persist($summoner);
             $em->flush();
+
+
         }catch (\Exception $e) {
             $mess = $e->getMessage();
             if(str_contains($mess, "Could not resolve host")) {
                 return new JsonResponse(['error' => "Invalid region", 'region' => $region], 400);
-            }else{
+            }elseif($e->getCode()===1062){
                 return new JsonResponse(['error' => "No summoner found", 'summonerName' => $summonerName], 404);
             }
+            dd($e->getCode());
         }
 
         try {
