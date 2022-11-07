@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Game;
+use App\Entity\Summoner;
 use App\Services\RiotService;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,22 +17,27 @@ class RiotController extends AbstractController
     public function index(ManagerRegistry $doctrine, RiotService $riotService, string $region, string $summonerName): JsonResponse
     {
         $em = $doctrine->getManager();
+        $nbMatchFetch = 0;
+        // Summoner
         try {
             $summoner = $riotService->getSummoner($region, $summonerName);
-            $em->persist($summoner);
-            $em->flush();
-
-
+            $exist = $em->getRepository(Summoner::class)->findOneBy(['puuid' => $summoner->getPuuid()]);
+            if($exist == null) {
+                $em->persist($summoner);
+                $em->flush();
+            }else{
+                $summoner = $exist;
+            }
         }catch (\Exception $e) {
             $mess = $e->getMessage();
             if(str_contains($mess, "Could not resolve host")) {
                 return new JsonResponse(['error' => "Invalid region", 'region' => $region], 400);
-            }elseif($e->getCode()===1062){
+            }else {
                 return new JsonResponse(['error' => "No summoner found", 'summonerName' => $summonerName], 404);
             }
-            dd($e->getCode());
         }
 
+        // History
         try {
             $history = $riotService->getSummonerHistory($region, $summoner->getPuuid());
         }catch (\Exception $e) {
@@ -38,13 +45,18 @@ class RiotController extends AbstractController
             dd($mess);
         }
 
+        // game events
         try {
             foreach ($history as $gameId) {
-                $game = $riotService->getGameInfo($region, $gameId);
-                $gameEvent = $riotService->getGameEvents($region, $gameId);
-                $game->setEvents($gameEvent);
-                $em->persist($game);
-                $em->flush();
+                $lastGame = $em->getRepository(Game::class)->findOneBy(['matchId' => $gameId]);
+                if($lastGame == null) {
+                    $game = $riotService->getGameInfo($region, $gameId);
+                    $gameEvent = $riotService->getGameEvents($region, $gameId);
+                    $game->setEvents($gameEvent);
+                    $em->persist($game);
+                    $em->flush();
+                    $nbMatchFetch++;
+                }
             }
         }catch (\Exception $e) {
             $mess = $e->getMessage();
@@ -53,6 +65,8 @@ class RiotController extends AbstractController
 
         return $this->json([
             'message' => 'Done',
+            'Summoner' => $summoner->getName(),
+            'nb_games' => $nbMatchFetch
         ]);
     }
 }

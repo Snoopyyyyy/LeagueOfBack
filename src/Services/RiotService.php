@@ -63,7 +63,9 @@ class RiotService
         $game = new Game();;
         $game->setMatchId($json["metadata"]["matchId"]);
         $game->setSurrender(false);
-        $game->setDate(new \DateTime(strtotime($json["info"]["gameCreation"])));
+        $creation = new \DateTime();
+        $creation->setTimestamp($json["info"]["gameCreation"]/1000);
+        $game->setDate($creation);
         $game->setDuration($json["info"]["gameDuration"]);
         $game->setGameMode($json["info"]["gameMode"]);
 
