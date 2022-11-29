@@ -149,31 +149,7 @@ class Game implements \JsonSerializable
 
         return $this;
     }
-
-    public function jsonSerialize(): array
-    {
-        return array(
-            "matchId" => $this->getMatchId(),
-            "surrender" => $this->isSurrender(),
-            "date" => $this->getDate(),
-            "duration" => $this->getDuration(),
-            "players" => $this->getPlayers()->toArray(),
-            "gameMode" => $this->getGameMode()
-        );
-    }
-
-    public function jsonSerializeEvent(): array {
-        return array(
-            "matchId" => $this->getMatchId(),
-            "surrender" => $this->isSurrender(),
-            "date" => $this->getDate(),
-            "duration" => $this->getDuration(),
-            "players" => $this->getPlayers()->toArray(),
-            "events" => $this->getEvents(),
-            "gameMode" => $this->getGameMode()
-        );
-    }
-
+    
     public function getGameMode(): ?string
     {
         return $this->gameMode;
@@ -196,5 +172,31 @@ class Game implements \JsonSerializable
         $this->gameType = $gameType;
 
         return $this;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return array(
+            "matchId" => $this->getMatchId(),
+            "surrender" => $this->isSurrender(),
+            "date" => $this->getDate(),
+            "duration" => $this->getDuration(),
+            "players" => $this->getPlayers()->toArray(),
+            "gameMode" => $this->getGameMode(),
+            "gameType" => $this->getGameType()
+        );
+    }
+
+    public function jsonSerializeEvent(): array {
+        return array(
+            "matchId" => $this->getMatchId(),
+            "surrender" => $this->isSurrender(),
+            "date" => $this->getDate(),
+            "duration" => $this->getDuration(),
+            "players" => $this->getPlayers()->toArray(),
+            "events" => $this->getEvents(),
+            "gameMode" => $this->getGameMode(),
+            "gameType" => $this->getGameType()
+        );
     }
 }
