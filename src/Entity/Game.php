@@ -37,6 +37,9 @@ class Game implements \JsonSerializable
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $gameMode = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $gameType = null;
+
     public function __construct()
     {
         $this->players = new ArrayCollection();
@@ -179,6 +182,18 @@ class Game implements \JsonSerializable
     public function setGameMode(?string $gameMode): self
     {
         $this->gameMode = $gameMode;
+
+        return $this;
+    }
+
+    public function getGameType(): ?string
+    {
+        return $this->gameType;
+    }
+
+    public function setGameType(?string $gameType): self
+    {
+        $this->gameType = $gameType;
 
         return $this;
     }

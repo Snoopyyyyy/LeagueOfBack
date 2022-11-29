@@ -68,6 +68,7 @@ class RiotService
         $game->setDate($creation);
         $game->setDuration($json["info"]["gameDuration"]);
         $game->setGameMode($json["info"]["gameMode"]);
+        $game->setGameType($json["info"]["gameType"]);
 
 
         foreach ($json["info"]["participants"] as $jsonPly) {
@@ -104,11 +105,12 @@ class RiotService
         $player->setKills($json["kills"]);
         $player->setDeath($json["deaths"]);
         $player->setAssists($json["assists"]);
-        $player->setCs($json["totalMinionsKilled"]);
+        $player->setCs($json["totalMinionsKilled"] + $json["neutralMinionsKilled"]);
         $player->setPost($json["individualPosition"]);
         $player->setParticipantId($json["participantId"]);
         $player->setVisionScore($json["visionScore"]);
         $player->setWin($json["win"]);
+        $player->setItem0($json["item0"]);
         $player->setItem1($json["item1"]);
         $player->setItem2($json["item2"]);
         $player->setItem3($json["item3"]);

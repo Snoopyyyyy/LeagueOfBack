@@ -53,6 +53,9 @@ class Player implements \JsonSerializable
     private ?bool $win = null;
 
     #[ORM\Column(nullable: true)]
+    private ?int $item0 = null;
+    
+    #[ORM\Column(nullable: true)]
     private ?int $item1 = null;
 
     #[ORM\Column(nullable: true)]
@@ -81,9 +84,6 @@ class Player implements \JsonSerializable
 
     #[ORM\Column]
     private ?int $summoner2 = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?int $item0 = null;
 
     public function getId(): ?int
     {
