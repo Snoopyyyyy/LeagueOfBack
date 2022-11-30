@@ -106,7 +106,7 @@ class RiotService
         $player->setDeath($json["deaths"]);
         $player->setAssists($json["assists"]);
         $player->setCs($json["totalMinionsKilled"] + $json["neutralMinionsKilled"]);
-        $player->setPost($json["individualPosition"]);
+        $player->setPost($json["teamPosition"]);
         $player->setParticipantId($json["participantId"]);
         $player->setVisionScore($json["visionScore"]);
         $player->setWin($json["win"]);
